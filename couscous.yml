@@ -1,0 +1,17 @@
+template:
+    url: https://github.com/CouscousPHP/Template-Light.git
+
+baseUrl: http://gnugat.github.io/marshaller
+
+title: Marshaller
+subTitle: A PHP library that converts from one format to another
+
+github:
+    user: gnugat
+    repo: marshaller
+
+menu:
+    items:
+        home:
+            text: Home
+            relativeUrl:
