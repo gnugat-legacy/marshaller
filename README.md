@@ -1,4 +1,5 @@
-# Marshaller
+# Marshaller [![SensioLabsInsight](https://insight.sensiolabs.com/projects/e3f1b42c-e796-40c8-bfb1-299a79983d2e/mini.png)](https://insight.sensiolabs.com/projects/e3f1b42c-e796-40c8-bfb1-299a79983d2e) [![Travis CI](https://travis-ci.org/memio/spec-gen.png)](https://travis-ci.org/gnugat/marshaller)
+
 
 A PHP library that converts from one format to another.
 
