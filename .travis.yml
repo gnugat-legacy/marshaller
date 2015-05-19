@@ -23,7 +23,6 @@ matrix:
         - php: 7.0
 
 before_script:
-  - curl http://cs.sensiolabs.org/get/php-cs-fixer.phar -o php-cs-fixer.phar
   - composer selfupdate
   - composer update $COMPOSER_FLAGS
 
