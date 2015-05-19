@@ -16,7 +16,7 @@ php:
 
 matrix:
     include:
-        - php: 5.3.3
+        - php: 5.3.6
           env: COMPOSER_FLAGS="--prefer-lowest"
     allow_failures:
         - php: hhvm
