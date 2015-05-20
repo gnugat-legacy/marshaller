@@ -98,9 +98,9 @@ Finally we can actually convert the object:
 $marshalledArticle = $marshaller->marshal($article);
 ```
 
-## Alternative conversions
+## Partial conversion
 
-If we need to convert `Article` into the following alternative format:
+If we need to convert `Article` into the following partial format:
 
 ```php
 // ...

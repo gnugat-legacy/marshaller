@@ -13,6 +13,7 @@ namespace spec\Gnugat\Marshaller;
 
 use Gnugat\Marshaller\MarshallerStrategy;
 use PhpSpec\ObjectBehavior;
+use stdClass;
 
 class MarshallerSpec extends ObjectBehavior
 {
@@ -21,19 +22,19 @@ class MarshallerSpec extends ObjectBehavior
         MarshallerStrategy $marshallerStrategy2,
         MarshallerStrategy $marshallerStrategy3
     ) {
-        $toMarshall = array();
+        $toMarshal = new stdClass();
 
-        $marshallerStrategy1->supports($toMarshall, null)->willReturn(true);
-        $marshallerStrategy2->supports($toMarshall, null)->willReturn(true);
-        $marshallerStrategy3->supports($toMarshall, null)->willReturn(true);
+        $marshallerStrategy1->supports($toMarshal, null)->willReturn(true);
+        $marshallerStrategy2->supports($toMarshal, null)->willReturn(true);
+        $marshallerStrategy3->supports($toMarshal, null)->willReturn(true);
 
         $this->add($marshallerStrategy1, 10);
         $this->add($marshallerStrategy2, 0);
         $this->add($marshallerStrategy3, 20);
 
-        $marshallerStrategy3->marshal($toMarshall)->shouldBeCalled();
+        $marshallerStrategy3->marshal($toMarshal)->shouldBeCalled();
 
-        $this->marshal($toMarshall);
+        $this->marshal($toMarshal);
     }
 
     function it_executes_the_appropriate_strategy(
@@ -41,26 +42,39 @@ class MarshallerSpec extends ObjectBehavior
         MarshallerStrategy $marshallerStrategy2,
         MarshallerStrategy $marshallerStrategy3
     ) {
-        $toMarshall = array();
+        $toMarshal = new stdClass();
 
-        $marshallerStrategy1->supports($toMarshall, null)->willReturn(false);
-        $marshallerStrategy2->supports($toMarshall, null)->willReturn(false);
-        $marshallerStrategy3->supports($toMarshall, null)->willReturn(true);
+        $marshallerStrategy1->supports($toMarshal, null)->willReturn(false);
+        $marshallerStrategy2->supports($toMarshal, null)->willReturn(false);
+        $marshallerStrategy3->supports($toMarshal, null)->willReturn(true);
 
         $this->add($marshallerStrategy1);
         $this->add($marshallerStrategy2);
         $this->add($marshallerStrategy3);
 
-        $marshallerStrategy3->marshal($toMarshall)->shouldBeCalled();
+        $marshallerStrategy3->marshal($toMarshal)->shouldBeCalled();
 
-        $this->marshal($toMarshall);
+        $this->marshal($toMarshal);
+    }
+
+    function it_can_handle_collections(MarshallerStrategy $marshallerStrategy)
+    {
+        $toMarshal = new stdClass();
+        $collection = array($toMarshal);
+
+        $this->add($marshallerStrategy);
+
+        $marshallerStrategy->supports($toMarshal, null)->willReturn(true);
+        $marshallerStrategy->marshal($toMarshal)->shouldBeCalled();
+
+        $this->marshal(array($toMarshal));
     }
 
     function it_fails_when_no_strategy_support_the_given_input()
     {
-        $toMarshall = array();
+        $toMarshal = new stdClass();
 
         $notSupportedException = 'Gnugat\Marshaller\NotSupportedException';
-        $this->shouldThrow($notSupportedException)->duringMarshal($toMarshall);
+        $this->shouldThrow($notSupportedException)->duringMarshal($toMarshal);
     }
 }
