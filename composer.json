@@ -4,6 +4,7 @@
     "type": "library",
     "description": "A PHP library that converts from one format to another",
     "keywords": ["marshaller", "converter", "translator","serializer"],
+    "homepage": "https://gnugat.github.io/marshaller",
     "autoload": {
         "psr-4": {
             "Gnugat\\Marshaller\\": "src/Gnugat/Marshaller"

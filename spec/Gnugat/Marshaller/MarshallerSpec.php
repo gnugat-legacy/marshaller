@@ -17,7 +17,7 @@ use stdClass;
 
 class MarshallerSpec extends ObjectBehavior
 {
-    function it_sort_registered_strategies(
+    function it_sorts_registered_strategies(
         MarshallerStrategy $marshallerStrategy1,
         MarshallerStrategy $marshallerStrategy2,
         MarshallerStrategy $marshallerStrategy3
@@ -67,7 +67,7 @@ class MarshallerSpec extends ObjectBehavior
         $marshallerStrategy->supports($toMarshal, null)->willReturn(true);
         $marshallerStrategy->marshal($toMarshal)->shouldBeCalled();
 
-        $this->marshal(array($toMarshal));
+        $this->marshalCollection($collection);
     }
 
     function it_fails_when_no_strategy_support_the_given_input()

@@ -1,17 +1,19 @@
-# Marshaller [![SensioLabsInsight](https://insight.sensiolabs.com/projects/e3f1b42c-e796-40c8-bfb1-299a79983d2e/mini.png)](https://insight.sensiolabs.com/projects/e3f1b42c-e796-40c8-bfb1-299a79983d2e) [![Travis CI](https://travis-ci.org/memio/spec-gen.png)](https://travis-ci.org/gnugat/marshaller)
-
+# Marshaller [![SensioLabsInsight](https://insight.sensiolabs.com/projects/e3f1b42c-e796-40c8-bfb1-299a79983d2e/mini.png)](https://insight.sensiolabs.com/projects/e3f1b42c-e796-40c8-bfb1-299a79983d2e) [![Travis CI](https://travis-ci.org/gnugat/marshaller.png)](https://travis-ci.org/gnugat/marshaller)
 
 A PHP library that converts from one format to another.
 
-It can be considered as the light version of JMS Serializer: instead of guessing
-our use cases and failing us in some specific cases, `Marshaller` lets us describe
-how each object (or anything) should be converted into the wanted format.
+Marshaller doesn't try to guess how to convert the given input, instead it relies
+on `MarshallerStrategies` implemented by the developers: it gives us full control
+on the output formats.
+
+To automatically convert an input into specific formats (like XML, JSON or YAML),
+it might be better to use other tools (e.g. [JMS Serializer](http://jmsyst.com/libs/serializer)).
 
 ## Installation
 
 Marshaller can be installed using [Composer](http://getcomposer.org/):
 
-    composer require "gnugat/marshaller:~1.0"
+    composer require "gnugat/marshaller:~2.0"
 
 ## Simple conversion
 
@@ -144,6 +146,27 @@ Finally we can call `Marshaller`, for the `partial` category:
 
 ```php
 $marshaller->marshal($article, 'partial');
+```
+
+## Collection conversions
+
+In order to avoid this:
+
+```php
+// ...
+
+$articles = array($article);
+foreach ($articles as $article) {
+    $marshaller->marshal($article);
+}
+```
+
+We can use the following short cut method:
+
+```php
+// ...
+
+$marshaller->marshalCollection($articles);
 ```
 
 ## Further documentation

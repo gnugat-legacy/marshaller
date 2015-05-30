@@ -23,10 +23,6 @@ class Article
      */
     private $content;
 
-    /**
-     * @param string $title
-     * @param string $content
-     */
     private function __construct()
     {
     }

@@ -11,8 +11,6 @@
 
 namespace Gnugat\Marshaller;
 
-use Traversable;
-
 /**
  * Converts from one format to another, using the appropriate MarshallerStrategy.
  *
@@ -57,36 +55,38 @@ class Marshaller
         if (!$this->isSorted) {
             $this->sortStrategies();
         }
-        if (!is_array($toMarshal) && !$toMarshal instanceof Traversable) {
-            return $this->marshalResource($toMarshal, $category);
-        }
-        $marshalledCollection = array();
-        foreach ($toMarshal as $resource) {
-            $marshalledCollection[] = $this->marshalResource($resource, $category);
-        }
-
-        return $marshalledCollection;
-    }
-
-    /**
-     * @param mixed  $toMarshal
-     * @param string $category
-     *
-     * @return mixed
-     *
-     * @throws NotSupportedException If the given $toMarshal isn't supported by any registered strategies
-     */
-    private function marshalResource($toMarshal, $category = null)
-    {
-        foreach ($this->prioritizedStrategies as $priority => $marshallerStrategies) {
-            foreach ($marshallerStrategies as $marshallerStrategy) {
-                if ($marshallerStrategy->supports($toMarshal, $category)) {
-                    return $marshallerStrategy->marshal($toMarshal);
+        foreach ($this->prioritizedStrategies as $priority => $strategies) {
+            foreach ($strategies as $strategy) {
+                if ($strategy->supports($toMarshal, $category)) {
+                    return $strategy->marshal($toMarshal);
                 }
             }
         }
 
         throw new NotSupportedException('The given $toMarshal is not supported by any registered strategies.');
+    }
+
+    /**
+     * @param array  $collection
+     * @param string $category
+     *
+     * @return mixed
+     *
+     * @throws NotSupportedException If the given $toMarshal isn't supported by any registered strategies
+     *
+     * @api
+     */
+    public function marshalCollection(array $collection, $category = null)
+    {
+        if (!$this->isSorted) {
+            $this->sortStrategies();
+        }
+        $marshalledCollection = array();
+        foreach ($collection as $toMarshal) {
+            $marshalledCollection[] = $this->marshal($toMarshal, $category);
+        }
+
+        return $marshalledCollection;
     }
 
     /**

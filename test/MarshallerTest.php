@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the gnugat/marshaller package.
+ *
+ * (c) Loïc Chardonnet <loic.chardonnet@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Gnugat\Marshaller\Tests;
 
 use Gnugat\Marshaller\Marshaller;
@@ -32,6 +41,22 @@ class MarshallerTest extends PHPUnit_Framework_TestCase
             'content' => self::CONTENT,
         );
         self::assertSame($expected, $this->marshaller->marshal($article));
+    }
+
+    /**
+     * @test
+     */
+    public function it_converts_collection_of_articles_to_collection_of_array()
+    {
+        $articles = array(Article::draft(self::TITLE, self::CONTENT));
+
+        $expected = array(
+            array(
+                'title' => self::TITLE,
+                'content' => self::CONTENT,
+            ),
+        );
+        self::assertSame($expected, $this->marshaller->marshalCollection($articles));
     }
 
     /**
